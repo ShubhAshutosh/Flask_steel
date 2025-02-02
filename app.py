@@ -3,6 +3,13 @@ import joblib
 import numpy as np
 from flask_cors import CORS  # Import CORS
 
+
+app = Flask(__name__)
+
+# Allow only Vercel frontend
+CORS(app, resources={r"/predict": {"origins": "https://steel-prop.vercel.app"}})
+
+
 # Load the trained RandomForest models for each property
 tensile_strength_model = joblib.load('Tensile_Strength_rf_model.pkl')
 elongation_model = joblib.load('Elongation_rf_model.pkl')
@@ -11,8 +18,8 @@ proof_stress_model = joblib.load('0.2_Proof_Stress_rf_model.pkl')
 ceq_model = joblib.load('Ceq_rf_model.pkl')
 
 # Initialize the Flask app
-app = Flask(__name__)
-CORS(app)
+#app = Flask(__name__)
+#CORS(app)
 
 # Define a route for prediction
 @app.route('/predict', methods=['POST'])
